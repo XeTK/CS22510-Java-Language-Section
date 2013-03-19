@@ -2,9 +2,8 @@ package uk.ac.aber.dcs.cs22510.eventmanager.data;
 
 public class Track
 {
-	private int trackNo, expected;
-	private Time start, end;
-	public Track(int trackNo,Time start,Time end,int expected)
+	private int trackNo, expected, start, end;
+	public Track(int trackNo,int start,int end,int expected)
 	{
 		this.trackNo = trackNo;
 		this.start = start;
@@ -19,11 +18,11 @@ public class Track
 	{
 		return expected;
 	}
-	public Time getStart()
+	public int getStart()
 	{
 		return start;
 	}
-	public Time getEnd()
+	public int getEnd()
 	{
 		return end;
 	}

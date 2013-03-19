@@ -4,9 +4,11 @@ public class Time
 {
 	private CheckPointType checkPointType;
 	private Node node;
-	private Time time;
-	public Time(CheckPointType checkPointType,Node node,Time time)
+        private Entrant entrant;
+	private String time;
+	public Time(CheckPointType checkPointType,Entrant entrant,Node node,String time)
 	{
+                this.entrant = entrant;
 		this.checkPointType = checkPointType;
 		this.node = node;
 		this.time = time;
@@ -19,9 +21,12 @@ public class Time
 	{
 		return node;
 	}
-	public Time getTime()
+	public String getTime()
 	{
 		return time;
 	}
-	
+	public Entrant getEntrant()
+        {
+                return entrant;
+        }
 }
