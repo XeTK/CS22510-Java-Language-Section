@@ -108,7 +108,7 @@ public class MyFileReader
             {
                 Scanner scan = new Scanner(file.get(i));
                 CheckPointType cpt = CheckPointType.valueOf(scan.next());
-                int nodeno = 0, entrant = 0;
+                int nodeno = scan.nextInt(), entrant = scan.nextInt();
                 Node node = null;
                 Entrant tentrant = null;
                 for (int j = 0; j < nodes.size();j++)
