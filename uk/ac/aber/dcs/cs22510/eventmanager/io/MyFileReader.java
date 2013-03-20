@@ -87,7 +87,7 @@ public class MyFileReader
                 Scanner scan = new Scanner(file.get(i));
                 int entrantNo = scan.nextInt();
                 char course = scan.next().charAt(0);
-                String name = scan.next();
+                String name = scan.next() + " " + scan.next();
                 Course tcourse = null;
                 for (int j = 0;j < courses.size();j++)
                 {
@@ -108,6 +108,10 @@ public class MyFileReader
             }
             
             return tempEntrants;
+        }
+        public void addTimes(File path, Event event)
+        {
+            addTimes(path, event.getNodes(), event.getEntrants());
         }
         private void addTimes(File path,ArrayList<Node> nodes,ArrayList<Entrant> entrants)
         {
@@ -132,7 +136,7 @@ public class MyFileReader
             ArrayList<Node> nodes = getNodes(nodesPath);
             ArrayList<Entrant> entrants = getEntrants(entrantPath,getCourses(coursePath,nodes));
             addTimes(timesPath,nodes,entrants);
-            return new Event(nameFile.get(0),nameFile.get(1),nameFile.get(2),getTrack(trackPath),entrants);
+            return new Event(nameFile.get(0),nameFile.get(1),nameFile.get(2),getTrack(trackPath),entrants,nodes);
         }
 }
 

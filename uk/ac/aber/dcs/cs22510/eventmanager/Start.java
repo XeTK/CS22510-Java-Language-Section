@@ -9,7 +9,9 @@ public class Start
 {
 	public static void main(String[] args) throws IOException
 	{
-            new Menu(new MyFileReader().getEvent(new File(args[0]), new File(args[1]), new File(args[2]), new File(args[3]), new File(args[4]), new File(args[5]), new File(args[6])));
-            /*add flags to them to see if correct, add method to check they are done in correct order and time...*/
+            if (args.length < 7)
+                System.out.println("Application : name.txt nodes.txt courses.txt entrants.txt nodes.txt tracks.txt cp_times_*.txt");
+            else
+                new Menu(new MyFileReader().getEvent(new File(args[0]), new File(args[1]), new File(args[2]), new File(args[3]), new File(args[4]), new File(args[5]), new File(args[6])));
         }
 }
