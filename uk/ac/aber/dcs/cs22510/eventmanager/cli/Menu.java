@@ -90,13 +90,36 @@ public class Menu
                             else if (state == Status.FailedCP||state == Status.FailedMed)
                                 System.out.println("Entrant has failed the event");
                             else if (state == Status.Incomplete)
-                                System.out.println("Entrant was last seen at : " + entrants.get(i).getLastLocation().getNode().getNode() + " at this time : " + entrants.get(i).getLastLocation().getTime());
+                                System.out.println("Entrant was last seen at : " + entrants.get(i).getLastTime().getNode().getNode() + " at this time : " + entrants.get(i).getLastTime().getTime());
                             break;
                         }    
                     }
                     break;
                 case '8':
-
+                    ArrayList<Entrant> leaderboard = new ArrayList<Entrant>();
+                    for (int i =0; i < entrants.size();i++)
+                        if (entrants.get(i).getStatus() == Status.Completed)
+                            leaderboard.add(entrants.get(i));
+                    while (true)
+                    {
+                        boolean sorted = true;
+                        for (int i = 0; i < leaderboard.size() - 1;i++)
+                        {
+                            int diff = diffTime(leaderboard.get(i).getFirstTime().getTime(),leaderboard.get(i).getLastTime().getTime()),
+                                diff2 = diffTime(leaderboard.get(i+1).getFirstTime().getTime(),leaderboard.get(i+1).getLastTime().getTime());
+                            if (diff > diff2)
+                            {
+                                Entrant te = leaderboard.get(i);
+                                leaderboard.set(i, leaderboard.get(i+1));
+                                leaderboard.set(i+1,te);
+                                sorted = false;
+                            }
+                        }
+                        if (sorted) 
+                            break;
+                    }
+                    for (int i = 0;i < leaderboard.size();i++)
+                        System.out.println(i+1 + ": " +leaderboard.get(i).getName() + " Time in mins : " + diffTime(leaderboard.get(i).getFirstTime().getTime(),leaderboard.get(i).getLastTime().getTime()));
                     break;
                 case '9':
                     System.out.println("Please enter the path for the times file you would like to import");
@@ -152,5 +175,14 @@ public class Menu
                 break;
             }
         }
+    }
+    private int convertTime(String inTime)
+    {
+        int hour = Integer.valueOf(inTime.charAt(0) + inTime.charAt(1)), min = Integer.valueOf(inTime.charAt(3) + inTime.charAt(4)); 
+        return (hour * 60) + min;
+    }
+    private int diffTime(String startTime, String endTime)
+    {
+        return convertTime(endTime) - convertTime(startTime);
     }
 }

@@ -35,9 +35,13 @@ public class Entrant
         {
             times.add(ttime);
         }
-        public Time getLastLocation()
+        public Time getLastTime()
         {
             return times.get(times.size() -1);
+        }
+        public Time getFirstTime()
+        {
+            return times.get(0);
         }
         public void validateTimes()
         { 
