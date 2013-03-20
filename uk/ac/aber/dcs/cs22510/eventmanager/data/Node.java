@@ -3,8 +3,8 @@ package uk.ac.aber.dcs.cs22510.eventmanager.data;
 public class Node
 {
 	private int node;
-	private String nodeType;
-	public Node(int node, String nodeType)
+	private CPType nodeType;
+	public Node(int node, CPType nodeType)
 	{
 		this.node = node;
 		this.nodeType = nodeType;
@@ -13,7 +13,7 @@ public class Node
 	{
 		return node;
 	}
-	public String getNodeType()
+	public CPType getNodeType()
 	{
 		return nodeType;
 	}

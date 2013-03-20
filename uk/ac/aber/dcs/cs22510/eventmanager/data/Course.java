@@ -2,7 +2,7 @@ package uk.ac.aber.dcs.cs22510.eventmanager.data;
 
 import java.util.ArrayList;
 
-public class Course
+public class Course implements Cloneable
 {
 	private ArrayList<Node> nodes;
 	private char ident;
@@ -19,4 +19,8 @@ public class Course
 	{
 		return ident;
 	}
+        public Course getClone() throws CloneNotSupportedException
+        {
+            return (Course)super.clone();
+        }
 }

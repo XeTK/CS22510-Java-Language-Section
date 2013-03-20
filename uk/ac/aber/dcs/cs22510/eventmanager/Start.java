@@ -1,15 +1,15 @@
 package uk.ac.aber.dcs.cs22510.eventmanager;
 
 import java.io.File;
-import uk.ac.aber.dcs.cs22510.eventmanager.data.Event;
+import java.io.IOException;
+import uk.ac.aber.dcs.cs22510.eventmanager.cli.Menu;
 import uk.ac.aber.dcs.cs22510.eventmanager.io.MyFileReader;
 
 public class Start
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-            Event tevent = new MyFileReader().getEvent(new File("Data/name.txt"), new File("Data/nodes.txt"), new File("Data/courses.txt"), new File("Data/entrants.txt"), new File("Data/nodes.txt"), new File("Data/tracks.txt"), new File("Data/cp_times_2.txt"));
-            System.out.println();
-            /*CopyNodes for entrants, add flags to them to see if correct, add method to check they are done in correct order and time...*/
+            new Menu(new MyFileReader().getEvent(new File(args[0]), new File(args[1]), new File(args[2]), new File(args[3]), new File(args[4]), new File(args[5]), new File(args[6])));
+            /*add flags to them to see if correct, add method to check they are done in correct order and time...*/
         }
 }

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import uk.ac.aber.dcs.cs22510.eventmanager.data.*;
 
@@ -35,7 +37,7 @@ public class MyFileReader
             for (int i =0; i < file.size();i++)
             {
                 Scanner parse = new Scanner(file.get(i));
-                tempNodes.add(new Node(parse.nextInt(),parse.next()));
+                tempNodes.add(new Node(parse.nextInt(),CPType.valueOf(parse.next())));
             }
             return tempNodes;
         }
@@ -91,8 +93,15 @@ public class MyFileReader
                 {
                     if (courses.get(j).getIdent() == course)
                     {
-                        tcourse = courses.get(j);
-                        break;
+                        try 
+                        {
+                            tcourse = (Course) courses.get(j).getClone();
+                            break;
+                        } 
+                        catch (CloneNotSupportedException ex) 
+                        {
+                            Logger.getLogger(MyFileReader.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }             
                 tempEntrants.add(new Entrant(entrantNo,tcourse,name));
