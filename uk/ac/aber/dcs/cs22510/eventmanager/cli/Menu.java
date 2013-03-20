@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import uk.ac.aber.dcs.cs22510.eventmanager.Start;
 import uk.ac.aber.dcs.cs22510.eventmanager.data.CheckPointType;
 import uk.ac.aber.dcs.cs22510.eventmanager.data.Entrant;
 import uk.ac.aber.dcs.cs22510.eventmanager.data.Event;
@@ -18,14 +19,15 @@ public class Menu
     public Menu(Event event) throws IOException
     {
         ArrayList<Entrant> entrants = event.getEntrants();
-        
         boolean exit = false;
         while (true)
         {
             int no = 0;
+            Start.log("Repopulating Entrants status");
             for (int i = 0;i < entrants.size();i++)
                 entrants.get(i).validateTimes();
             printMenu();
+            Start.log("Taking user input for menu");
             char s = new BufferedReader(new InputStreamReader(System.in)).readLine().charAt(0);
             switch (s)
             {
@@ -46,22 +48,26 @@ public class Menu
                         default:
                             break;
                     }
-                case '2':     
+                case '2':    
+                    Start.log("Listing Entrants that failed to complete successfully");
                     for (int i =0; i < entrants.size();i++)
                         if (entrants.get(i).getStatus() == Status.FailedCP)
                             System.out.println("Entrant : " + entrants.get(i).getName() + " has made a error on their course");
                     break;
                 case '3':
+                    Start.log("Listing Entrants that have failed medical checks");
                      for (int i =0; i < entrants.size();i++)
                         if (entrants.get(i).getStatus() == Status.FailedMed)
                             System.out.println("Entrant : " + entrants.get(i).getName() + " has failed there medical check");
                     break;
                 case '4':
+                    Start.log("Listing number of Entrants that have completed");
                     for (int i =0; i < entrants.size();i++)
                         if (entrants.get(i).getStatus() == Status.Completed)
                             System.out.println("Entrant : " + entrants.get(i).getName() + " has completed their course");
                     break;
                 case '5':
+                    Start.log("Listing number of Entrants that have not started");
                     no = 0;
                     for (int i =0; i < entrants.size();i++)
                         if (entrants.get(i).getStatus() == Status.NotStarted)
@@ -69,6 +75,7 @@ public class Menu
                     System.out.println(no + " This many entrants have not started");
                     break;
                 case '6':
+                    Start.log("Listing number of Entrants that have not completed there course yet");
                     no = 0;
                     for (int i =0; i < entrants.size();i++)
                         if (entrants.get(i).getStatus() == Status.Incomplete)
@@ -76,12 +83,14 @@ public class Menu
                     System.out.println(no + " This many entrants have not completed their course");
                     break;
                 case '7':
+                    Start.log("Quering location of a entrant");
                     System.out.println("Please enter entrants number: ");
                     int entno = Integer.valueOf(new BufferedReader(new InputStreamReader(System.in)).readLine());
                     for (int i = 0; i < entrants.size();i++)
                     {
                         if (entrants.get(i).getEntrantNo() == entno)
                         {
+                            Start.log("Entrant found checking further...");
                             Status state = entrants.get(i).getStatus();
                             if (state == Status.Completed)
                                 System.out.println("Entrant has finished the event");
@@ -96,10 +105,12 @@ public class Menu
                     }
                     break;
                 case '8':
+                    Start.log("Populating Leaderboard");
                     ArrayList<Entrant> leaderboard = new ArrayList<Entrant>();
                     for (int i =0; i < entrants.size();i++)
                         if (entrants.get(i).getStatus() == Status.Completed)
                             leaderboard.add(entrants.get(i));
+                    Start.log("Start Sorting Results");
                     while (true)
                     {
                         boolean sorted = true;
@@ -118,18 +129,22 @@ public class Menu
                         if (sorted) 
                             break;
                     }
+                    Start.log("Finish Sorting Results, Display Results to the screen");
                     for (int i = 0;i < leaderboard.size();i++)
                         System.out.println(i+1 + ": " +leaderboard.get(i).getName() + " Time in mins : " + diffTime(leaderboard.get(i).getFirstTime().getTime(),leaderboard.get(i).getLastTime().getTime()));
                     break;
                 case '9':
+                    Start.log("Importing new set of times");
                     System.out.println("Please enter the path for the times file you would like to import");
                     new MyFileReader().addTimes(new File(new BufferedReader(new InputStreamReader(System.in)).readLine()), event);
                     break;
                 case '0':
+                    Start.log("Exiting Program");
                     System.out.println("Goodbye!");
                     exit = true;
                     break;
                 default:
+                    Start.log("Invalid Menu selection made");
                     System.out.println("Invalid Selection");
                     break;
             }
@@ -141,6 +156,7 @@ public class Menu
     }
     private void printMenu()
     {
+        Start.log("Displaying Menu");
         System.out.println("\n1: Add new checkpoint time\n"
                          + "2: Print & Log Entrants excluded for wrong course\n"
                          + "3: Print & Log Entrants excluded at medical checkpoints\n"
@@ -155,6 +171,7 @@ public class Menu
     }
     private void addTime(Event event,CheckPointType cpt) throws IOException 
     {
+        Start.log("Adding New Time Manualy");
         ArrayList<Entrant> entrants = event.getEntrants();
         System.out.println("Please enter entrants number: ");
         int entno = Integer.valueOf(new BufferedReader(new InputStreamReader(System.in)).readLine());

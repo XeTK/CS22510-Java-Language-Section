@@ -2,36 +2,52 @@ package uk.ac.aber.dcs.cs22510.eventmanager.io;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileReader;
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import uk.ac.aber.dcs.cs22510.eventmanager.Start;
 
 import uk.ac.aber.dcs.cs22510.eventmanager.data.*;
 
 public class MyFileReader
 {
-	private static ArrayList<String> getFile(File path)
+	public static ArrayList<String> getFile(File path)
 	{
-		ArrayList<String> temp = new ArrayList<String>();
-		try 
-		{
-			BufferedReader reader = new BufferedReader(new FileReader(path));
-			String tempWord = "";
-			while ((tempWord = reader.readLine()) != null)
-				temp.add(tempWord);
-			reader.close();
-		} 
-		catch (IOException x) 
-		{
-		    System.err.println(x);
-		}
-                return temp;
+            Start.log("getFile Loaded " + path.toString());
+            ArrayList<String> temp = new ArrayList<String>();
+            try 
+            {
+                    FileOutputStream fos = new FileOutputStream(path, true);
+                    FileLock fl = fos.getChannel().tryLock();
+                    if (fl != null) 
+                    {
+                        Start.addLock(fl);
+                        Start.log("File Locked");
+                    }
+                    else
+                    {
+                        Start.log("File Failed to lock");
+                    }
+                    BufferedReader reader = new BufferedReader(new FileReader(path));
+                    String tempWord = "";
+                    while ((tempWord = reader.readLine()) != null)
+                            temp.add(tempWord);
+                    reader.close();
+            } 
+            catch (IOException x) 
+            {
+                System.err.println(x);
+            }
+            return temp;
 	}
         private static ArrayList<Node> getNodes(File path)
         {
+            Start.log("Getting Nodes");
             ArrayList<Node> tempNodes = new ArrayList<Node>();
             ArrayList<String> file = getFile(path);
             for (int i =0; i < file.size();i++)
@@ -43,6 +59,7 @@ public class MyFileReader
         }
         private ArrayList<Course> getCourses(File coursePath,ArrayList<Node> nodes)
         {
+            Start.log("Getting Courses");
             ArrayList<Course> tempCourses = new ArrayList<Course>();
             ArrayList<String> file = getFile(coursePath);
             for (int i = 0; i < file.size();i++)
@@ -69,6 +86,7 @@ public class MyFileReader
         }
         private ArrayList<Track> getTrack(File path)
         {
+            Start.log("Getting Tracks");
             ArrayList<Track> tempTimes = new ArrayList<Track>();
             ArrayList<String> file = getFile(path);
             for (int i = 0; i < file.size();i++)
@@ -80,6 +98,7 @@ public class MyFileReader
         }
         private ArrayList<Entrant> getEntrants(File path,ArrayList<Course> courses)
         {
+            Start.log("Getting Entrants");
             ArrayList<Entrant> tempEntrants = new ArrayList<Entrant>();
             ArrayList<String> file = getFile(path);
             for (int i = 0; i < file.size();i++)
@@ -115,6 +134,7 @@ public class MyFileReader
         }
         private void addTimes(File path,ArrayList<Node> nodes,ArrayList<Entrant> entrants)
         {
+            Start.log("Getting Times");
             ArrayList<String> file = getFile(path);
             for (int i = 0; i < file.size();i++)
             {
@@ -132,6 +152,7 @@ public class MyFileReader
         }
         public Event getEvent(File eventPath,File nodesPath, File coursePath, File entrantPath, File nodePath, File trackPath, File timesPath)
         {
+            Start.log("Populating Event");
             ArrayList<String> nameFile = getFile(eventPath);
             ArrayList<Node> nodes = getNodes(nodesPath);
             ArrayList<Entrant> entrants = getEntrants(entrantPath,getCourses(coursePath,nodes));
