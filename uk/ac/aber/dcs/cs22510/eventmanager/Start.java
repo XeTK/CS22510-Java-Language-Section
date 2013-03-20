@@ -10,5 +10,6 @@ public class Start
 	{
             Event tevent = new MyFileReader().getEvent(new File("Data/name.txt"), new File("Data/nodes.txt"), new File("Data/courses.txt"), new File("Data/entrants.txt"), new File("Data/nodes.txt"), new File("Data/tracks.txt"), new File("Data/cp_times_2.txt"));
             System.out.println();
+            /*CopyNodes for entrants, add flags to them to see if correct, add method to check they are done in correct order and time...*/
         }
 }

@@ -100,9 +100,8 @@ public class MyFileReader
             
             return tempEntrants;
         }
-        private ArrayList<Time> getTimes(File path,ArrayList<Node> nodes,ArrayList<Entrant> entrants)
+        private void addTimes(File path,ArrayList<Node> nodes,ArrayList<Entrant> entrants)
         {
-            ArrayList<Time> tempTimes = new ArrayList<Time>();
             ArrayList<String> file = getFile(path);
             for (int i = 0; i < file.size();i++)
             {
@@ -110,24 +109,21 @@ public class MyFileReader
                 CheckPointType cpt = CheckPointType.valueOf(scan.next());
                 int nodeno = scan.nextInt(), entrant = scan.nextInt();
                 Node node = null;
-                Entrant tentrant = null;
                 for (int j = 0; j < nodes.size();j++)
                     if (nodes.get(j).getNode() == nodeno)
                         node = nodes.get(j);
                 for (int j = 0; j < entrants.size();j++)
                     if (entrants.get(j).getEntrantNo() == entrant)
-                        tentrant = entrants.get(i);
-                tempTimes.add(new Time(cpt,tentrant,node,scan.next()));
+                        entrants.get(j).addTime(new Time(cpt,node,scan.next()));
             }
-            return tempTimes;
         }
         public Event getEvent(File eventPath,File nodesPath, File coursePath, File entrantPath, File nodePath, File trackPath, File timesPath)
         {
             ArrayList<String> nameFile = getFile(eventPath);
             ArrayList<Node> nodes = getNodes(nodesPath);
-            ArrayList<Course> courses = getCourses(coursePath,nodes);
-            ArrayList<Entrant> entrants = getEntrants(entrantPath,courses);
-            return new Event(nameFile.get(0),nameFile.get(1),nameFile.get(2),nodes,getTrack(trackPath),courses,entrants,getTimes(timesPath,nodes,entrants));
+            ArrayList<Entrant> entrants = getEntrants(entrantPath,getCourses(coursePath,nodes));
+            addTimes(timesPath,nodes,entrants);
+            return new Event(nameFile.get(0),nameFile.get(1),nameFile.get(2),getTrack(trackPath),entrants);
         }
 }
 
