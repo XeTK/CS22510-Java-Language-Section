@@ -1,5 +1,8 @@
 package uk.ac.aber.dcs.cs22510.eventmanager.data;
-
+/**
+ * Data class for Time objects, with its appropriate node 
+ * @author THR2
+ */
 public class Time
 {
 	private CheckPointType checkPointType;

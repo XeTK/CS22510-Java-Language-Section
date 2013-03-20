@@ -1,5 +1,8 @@
 package uk.ac.aber.dcs.cs22510.eventmanager.data;
-
+/**
+ * Data class for a track objects 
+ * @author THR2
+ */
 public class Track
 {
 	private int trackNo, expected, start, end;
@@ -10,6 +13,7 @@ public class Track
 		this.end = end;
 		this.expected = expected;
 	}
+        /*Getters and Setters*/
 	public int getTrackNo()
 	{
 		return trackNo;

@@ -1,5 +1,8 @@
 package uk.ac.aber.dcs.cs22510.eventmanager.data;
-
+/**
+ * Data class for a node object, to help link courses together
+ * @author THR2
+ */
 public class Node
 {
 	private int node;

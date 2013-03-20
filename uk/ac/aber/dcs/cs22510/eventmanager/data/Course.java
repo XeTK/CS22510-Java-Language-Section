@@ -1,8 +1,11 @@
 package uk.ac.aber.dcs.cs22510.eventmanager.data;
-
+/**
+ * This class holds all the information relevant to course
+ * @Author THR2
+ */
 import java.util.ArrayList;
 
-public class Course implements Cloneable
+public class Course
 {
 	private ArrayList<Node> nodes;
 	private char ident;
@@ -19,8 +22,4 @@ public class Course implements Cloneable
 	{
 		return ident;
 	}
-        public Course getClone() throws CloneNotSupportedException
-        {
-            return (Course)super.clone();
-        }
 }

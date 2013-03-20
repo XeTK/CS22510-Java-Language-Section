@@ -1,5 +1,8 @@
 package uk.ac.aber.dcs.cs22510.eventmanager.data;
-
+/**
+ * Encapulation class for all the objects that define a event
+ * @author THR2
+ */
 import java.util.ArrayList;
 
 public class Event
